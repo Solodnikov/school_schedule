@@ -1,0 +1,1 @@
+from schedule.schedule import schedule_1e # noqa
