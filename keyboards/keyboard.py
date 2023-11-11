@@ -1,17 +1,44 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import InlineKeyboardButton
+import datetime
 
 
-def start_keyboard() -> InlineKeyboardBuilder:
+def greeting_keyboard() -> InlineKeyboardBuilder:
     builder = InlineKeyboardBuilder()
     builder.row(
         InlineKeyboardButton(
-            text="Расписание на сегодня", callback_data='today'),
-    )
-    builder.row(
-        InlineKeyboardButton(
-            text="Расписание на завтра", callback_data='tomorrow'),
-    )
+            text="Давай посмотрим расписание",
+            callback_data='main'),
+        )
+    return builder
+
+
+def start_keyboard(day_today: datetime.datetime) -> InlineKeyboardBuilder:
+    builder = InlineKeyboardBuilder()
+
+    # получаю день недели
+    weekday = day_today.today().weekday()
+
+    # формирую клавиатуру рабочих дней
+    if weekday <= 4:
+        builder.row(
+            InlineKeyboardButton(
+                text="Расписание на сегодня",
+                callback_data=f'shedule {weekday}'),
+        )
+        builder.row(
+            InlineKeyboardButton(
+                text="Расписание на завтра",
+                callback_data=f'shedule {weekday}'),
+        )
+
+    # формирую клавиатуру для выходного дня
+    elif weekday > 4:
+        builder.row(
+            InlineKeyboardButton(
+                text="Расписание на завтра",
+                callback_data='shedule 0'),
+        )
     return builder
 
 

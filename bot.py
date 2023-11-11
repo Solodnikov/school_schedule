@@ -7,9 +7,15 @@ from handlers import start, callback
 
 async def main():
     logging.basicConfig(level=logging.INFO)
+
+    # Инициализируем бот и диспетчер
     bot = Bot(token=settings.bot_token.get_secret_value())
     dp = Dispatcher()
+
+    # Регистриуем роутеры в диспетчере
     dp.include_routers(start.router, callback.router)
+
+    # Пропускаем накопившиеся апдейты и запускаем polling
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
