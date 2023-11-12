@@ -1,8 +1,17 @@
 import asyncio
+import os
 import logging
 from aiogram import Bot, Dispatcher
-from config import settings
+# from config import settings
 from handlers import start, callback
+from dotenv import load_dotenv
+
+load_dotenv()
+# Теперь переменная BOT_TOKEN, описанная в файле .env,
+# доступна в пространстве переменных окружения
+
+token = os.getenv('BOT_TOKEN',
+                  default='6543904657:AAHgH0VgKygjxAKfbWldBxM9yMsAg-qvHx0')
 
 
 async def main():
@@ -10,7 +19,8 @@ async def main():
 
     # Инициализируем бот и диспетчер
     bot = Bot(
-        token=settings.bot_token.get_secret_value(),
+        token=token,
+        # token=settings.bot_token.get_secret_value(),
         parse_mode="HTML")
     dp = Dispatcher()
 
