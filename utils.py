@@ -33,5 +33,5 @@ def get_date(day_today: datetime.datetime) -> str:
     weekday_name = DAYS_NAME[day_today.weekday()]
 
     return (
-        f'Сегодня {weekday_name}, {day_today.day} {month_name}'
+        f'Сегодня <b>{weekday_name}, {day_today.day} {month_name}</b>'
     )

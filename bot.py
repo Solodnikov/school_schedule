@@ -9,7 +9,9 @@ async def main():
     logging.basicConfig(level=logging.INFO)
 
     # Инициализируем бот и диспетчер
-    bot = Bot(token=settings.bot_token.get_secret_value())
+    bot = Bot(
+        token=settings.bot_token.get_secret_value(),
+        parse_mode="HTML")
     dp = Dispatcher()
 
     # Регистриуем роутеры в диспетчере
@@ -21,3 +23,10 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+# TODO: добавить убирание клавиатуры
+# TODO: добавить различное повдение для разных класов
+# (изначально для Миши и Маши)
+# TODO: ? добавить время уроков
+# TODO: запустить на сервере
+# TODO: добавить выбор класса на старте и БД

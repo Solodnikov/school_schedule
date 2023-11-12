@@ -6,7 +6,7 @@ from keyboards.keyboard import (start_keyboard,
 from utils import get_date
 import datetime
 from aiogram.types import FSInputFile
-from constants import START_FOTO
+from constants import START_FOTO, MARY_ID
 
 
 router = Router()
@@ -25,7 +25,11 @@ def greeting_message(name):
 async def cmd_start(message: types.Message):
     photo = FSInputFile(START_FOTO)
     await message.answer_photo(photo)
+    if message.from_user.id == MARY_ID:
+        name = "Маруся"
+    else:
+        name = ""
     await message.answer(
-        text=greeting_message('Незнакомец'),
+        text=greeting_message(name),
         reply_markup=greeting_keyboard().as_markup(),
     )

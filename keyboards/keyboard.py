@@ -20,7 +20,7 @@ def start_keyboard(day_today: datetime.datetime) -> InlineKeyboardBuilder:
     weekday = day_today.today().weekday()
 
     # формирую клавиатуру рабочих дней
-    if weekday <= 4:
+    if weekday <= 3:
         builder.row(
             InlineKeyboardButton(
                 text="Расписание на сегодня",
@@ -29,11 +29,22 @@ def start_keyboard(day_today: datetime.datetime) -> InlineKeyboardBuilder:
         builder.row(
             InlineKeyboardButton(
                 text="Расписание на завтра",
+                callback_data=f'shedule {weekday+1}'),
+        )
+    if weekday == 4:
+        builder.row(
+            InlineKeyboardButton(
+                text="Расписание на сегодня",
                 callback_data=f'shedule {weekday}'),
         )
-
     # формирую клавиатуру для выходного дня
-    elif weekday > 4:
+    elif weekday == 5:
+        builder.row(
+            InlineKeyboardButton(
+                text="Расписание на послезавтра",
+                callback_data='shedule 0'),
+        )
+    elif weekday == 6:
         builder.row(
             InlineKeyboardButton(
                 text="Расписание на завтра",

@@ -3,7 +3,7 @@ from aiogram.types import CallbackQuery
 from schedule import schedule_1e
 from keyboards import return_keyboard, start_keyboard
 import datetime
-from utils import get_date
+from utils import get_date, DAYS_NAME
 
 
 router = Router()
@@ -17,8 +17,6 @@ async def main(callback: CallbackQuery):
             f'{get_date(day_today)}\n\n'
             'Выбери что тебя интересует:'
         ),
-    # await callback.message.answer(
-    #     text='Выбери что тебя интересует:',
         reply_markup=start_keyboard(day_today).as_markup(),
     )
 
@@ -47,9 +45,16 @@ async def tomorrow_schedule(callback: CallbackQuery):
     )
 
 
-# @router.callback_query(F.data == 'main')
-# async def main(callback: CallbackQuery):
-#     await callback.message.answer(
-#         text='Выбери расписание на какой день тебя интересует:',
-#         reply_markup=start_keyboard().as_markup(),
-#     )
+@router.callback_query(F.data.startswith('shedule'))
+async def schedule_handler(callback: CallbackQuery):
+    schedule_day = int(callback.data.split()[1])
+    lessons_list = schedule_1e[schedule_day]
+    lessons = "\n".join(
+        [f'{index}.  {lesson}' for index, lesson in enumerate(lessons_list,1)])  # noqa
+    await callback.message.answer(
+        text=(
+            f'Расписание класса 1Е на <b>{DAYS_NAME[schedule_day]}</b>:\n\n' # noqa
+            f'{lessons}'
+        ),
+        reply_markup=return_keyboard().as_markup(),
+    )
